@@ -95,15 +95,15 @@ class VentanaDiagnostico extends JFrame {
 
         campoNombre = new JTextField();
         campoEdad = new JTextField();
-        campoID = new JTextField();
+        campoMatricula = new JTextField();
         campoSexo = new JTextField();
 
         panelDatos.add(new JLabel("Nombre:"));
         panelDatos.add(campoNombre);
         panelDatos.add(new JLabel("Edad:"));
         panelDatos.add(campoEdad);
-        panelDatos.add(new JLabel("ID:"));
-        panelDatos.add(campoID);
+        panelDatos.add(new JLabel("Matricula:"));
+        panelDatos.add(campoMatricula);
         panelDatos.add(new JLabel("Sexo (M/F/Otro):"));
         panelDatos.add(campoSexo);
 
@@ -136,10 +136,10 @@ class VentanaDiagnostico extends JFrame {
     private void procesarDiagnostico() {
         String nombre = campoNombre.getText().trim();
         String edad = campoEdad.getText().trim();
-        String id = campoID.getText().trim();
+        String matricula = campoMatricula.generarMatricula().trim();
         String sexo = campoSexo.getText().trim();
 
-        if (nombre.isEmpty() || edad.isEmpty() || id.isEmpty() || sexo.isEmpty()) {
+        if (nombre.isEmpty() || edad.isEmpty() || matricula.isEmpty() || sexo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe completar todos los campos para continuar.");
             return;
         }
@@ -156,8 +156,19 @@ class VentanaDiagnostico extends JFrame {
             return;
         }
 
-        mostrarDiagnostico(seleccionados, nombre, edad, id, sexo);
+        mostrarDiagnostico(seleccionados, nombre, edad, matricula, sexo);
     }
+
+    public static String generarMatricula() {
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder matricula = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            int indice = (int) (Math.random() * caracteres.length());
+            matricula.append(caracteres.charAt(indice));
+        }
+        return matricula.toString();
+    }
+
 
     private void mostrarDiagnostico(Set<Integer> sintomasIngresados, String nombre, String edad, String id, String sexo) {
         Map<String, java.util.List<Integer>> enfermedades = new HashMap<>();
